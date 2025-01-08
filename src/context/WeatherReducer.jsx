@@ -10,7 +10,7 @@ export function WeatherReducer(state,action){
             return {...state, loading : true}
             
         case ACTIONS.CLEAR_RESULT:
-            return {...state, result : {}}
+            return {...state, result : {},loading : false}
     
         default:
             return state;

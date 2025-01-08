@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <WeatherContextProvider>
-        <div className="container mx-auto px-[200px] pb-[400px] w-[800px] border-2 border-indigo-500">
+        <div className="container mx-auto px-[200px] pb-[400px] w-[800px]">
           <Form/>
           <Stats/>
         </div>

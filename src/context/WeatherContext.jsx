@@ -15,7 +15,7 @@ export function WeatherContextProvider({children}){
   const key = import.meta.env.VITE_WEATHER_API;
   const base_url = import.meta.env.VITE_WEATHER_URL;
 
-  
+  const [errorMsg,setErrorMsg] = useState('');
 
   const initialState = {
     result : {},
@@ -33,11 +33,14 @@ export function WeatherContextProvider({children}){
     })
 
     const response = await fetch(`${base_url}/current.json?key=${key}&${params}`)
-    const data = await response.json();
+
+    if(response.status === 400){
+      displayError();
+    } else {
+        const data = await response.json();
+        dispatch({type : ACTIONS.GET_TEMPERATURE,payload : data})
+    }    
     
-    console.log(data);
-    
-    dispatch({type : ACTIONS.GET_TEMPERATURE,payload : data})
   }
 
   function setLoading(){
@@ -47,10 +50,19 @@ export function WeatherContextProvider({children}){
   function clearResult(){
     dispatch({type:ACTIONS.CLEAR_RESULT});
   }
+  
+  function displayError(){
 
+    dispatch({type:ACTIONS.CLEAR_RESULT});
+    setErrorMsg('Please enter a valid place.');
+    setTimeout(() => {
+      setErrorMsg('');
+      return;
+    },3000)
+  }
 
   return(
-    <WeatherContext.Provider value={{getTemperature,setLoading,clearResult,result:state.result,loading:state.loading}}>
+    <WeatherContext.Provider value={{getTemperature,setLoading,clearResult,displayError,result:state.result,loading:state.loading,errorMsg}}>
       {children}
     </WeatherContext.Provider>
   )
