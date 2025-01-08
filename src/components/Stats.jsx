@@ -8,9 +8,10 @@ function Stats() {
 
   useEffect(() => {
     if (result && result.location) {
-      setIsVisible(true); // Show the component when result is available
+      // Ensure transition runs by delaying visibility
+      setTimeout(() => setIsVisible(true), 100);
     } else {
-      setIsVisible(false); // Hide the component when result is cleared
+      setIsVisible(false);
     }
   }, [result]);
 
@@ -29,7 +30,7 @@ function Stats() {
 
   return (
     <div
-      className={`mt-10 flex justify-center items-center transition-transform duration-600 ${
+      className={`mt-10 flex justify-center items-center transform transition-all duration-700 ${
         isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
       }`}
     >
@@ -46,7 +47,10 @@ function Stats() {
             />
             <p className="text-lg font-medium">{text}</p>
           </div>
-          <p className="text-4xl font-extrabold">{temp_c}°C</p>
+          <div className="flex flex-col items-center">
+            <p className="text-4xl font-extrabold">{temp_c}°C</p>
+            <p className="text-xl font-medium text-gray-400">/ {temp_f}°F</p>
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="text-center">
